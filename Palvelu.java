@@ -83,7 +83,7 @@ public class Palvelu {
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
 			if (tulosjoukko == null) {
-				throw new Exception("palvelu ei loydy");
+				throw new Exception("Palvelua ei loydy");
 			}
 		} catch (SQLException se) {
             // SQL virheet
@@ -164,7 +164,7 @@ public class Palvelu {
 			int lkm = lause.executeUpdate();	
 		//	System.out.println("lkm " + lkm);
 			if (lkm == 0) {
-				throw new Exception("PAlvelu lisaaminen ei onnistu");
+				throw new Exception("Palvelun lisaaminen ei onnistu");
 			}
 		} catch (SQLException se) {
             // SQL virheet
@@ -225,7 +225,7 @@ public class Palvelu {
 			// suorita sql-lause
 			int lkm = lause.executeUpdate();	
 			if (lkm == 0) {
-				throw new Exception("Asiakkaan muuttaminen ei onnistu");
+				throw new Exception("Palvelun muuttaminen ei onnistu");
 			}
 		} catch (SQLException se) {
             // SQL virheet

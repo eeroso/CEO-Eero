@@ -221,10 +221,10 @@ public class PalveluGUI extends JFrame {
 			m_palvelu = Palvelu.haePalvelu (m_conn, Integer.parseInt(txtPalveluID.getText()), Integer.parseInt(txtToimipisteID.getText()));
 		} catch (SQLException se) {
 		// SQL virheet
-			JOptionPane.showMessageDialog(null, "palvelu ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Palvelua ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
 		// muut virheet
-			JOptionPane.showMessageDialog(null, "palvelu ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Palvelua ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
 		}
 		if (m_palvelu.getNimi() == null) {
 		// muut virheet
@@ -234,7 +234,7 @@ public class PalveluGUI extends JFrame {
 			txtKuvaus.setText("");
 			txtHinta.setText("");
 			txtAlv.setText("");
-			JOptionPane.showMessageDialog(null, "palvelu ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Palvelua ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
 		}
 		else
 		{
@@ -295,16 +295,16 @@ public class PalveluGUI extends JFrame {
 			} catch (SQLException se) {
 			// SQL virheet
             palvelu_lisatty = false;
-				JOptionPane.showMessageDialog(null, "toimipiste lisaaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Palvelun lisaaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 			//	 se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
             palvelu_lisatty = false;
-				JOptionPane.showMessageDialog(null, "toimipiste lisaaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Palvelun lisaaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
 			//	 e.printStackTrace();
 			}finally {
 				if (palvelu_lisatty == true)
-					JOptionPane.showMessageDialog(null, "toimipistetiedot lisatty tietokantaan.");
+					JOptionPane.showMessageDialog(null, "Palvelu lisatty tietokantaan.");
 			}
 		
 		}
@@ -331,16 +331,16 @@ public class PalveluGUI extends JFrame {
 			} catch (SQLException se) {
 			// SQL virheet
             palvelu_muutettu = false;
-				JOptionPane.showMessageDialog(null, "Asiakkaan tietojen muuttaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Palvelun tietojen muuttaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 				 //se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
             palvelu_muutettu = false;
-				JOptionPane.showMessageDialog(null, "Asiakkaan tietojen muuttaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Palvelun tietojen muuttaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
 				// e.printStackTrace();
 			} finally {
 				if (palvelu_muutettu == true)
-					JOptionPane.showMessageDialog(null, "Asiakkaan tiedot muutettu.");
+					JOptionPane.showMessageDialog(null, "Palvelun tiedot muutettu.");
 			}
 		
 	}
@@ -353,10 +353,10 @@ public class PalveluGUI extends JFrame {
 			m_palvelu = Palvelu.haePalvelu (m_conn, Integer.parseInt(txtPalveluID.getText()), Integer.parseInt(txtToimipisteID.getText()));
 		} catch (SQLException se) {
 		// SQL virheet
-			JOptionPane.showMessageDialog(null, "Asiakasta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Palvelua ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
 		// muut virheet
-			JOptionPane.showMessageDialog(null, "Asiakasta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Palvelua ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		}
 		if (m_palvelu.getNimi() == null) {
 		// poistettavaa asiakasta ei löydy tietokannasta, tyhjennetään tiedot näytöltä
@@ -366,7 +366,7 @@ public class PalveluGUI extends JFrame {
 			txtKuvaus.setText("");
 			txtHinta.setText("");
 			txtAlv.setText("");
-			JOptionPane.showMessageDialog(null, "Asiakasta ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Palvelua ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
 			return; // poistutaan
 		}
 		else
@@ -380,17 +380,17 @@ public class PalveluGUI extends JFrame {
 			txtAlv.setText(String.valueOf(m_palvelu.getAlv()));
 		}
 		try {
-			if (JOptionPane.showConfirmDialog(null, "Haluatko todella poistaa palvelu?")==0) {// vahvistus ikkunassa
+			if (JOptionPane.showConfirmDialog(null, "Haluatko todella poistaa palvelun?")==0) {// vahvistus ikkunassa
 				m_palvelu.poistaPalvelu (m_conn);
 				palvelu_poistettu = true;
 			}
 			} catch (SQLException se) {
 			// SQL virheet
-				JOptionPane.showMessageDialog(null, "palvelu tietojen poistaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Palvelun poistaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 				// se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
-				JOptionPane.showMessageDialog(null, "palvelu tietojen poistaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Palvelun poistaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
 				// e.printStackTrace();
 			} finally {
 				if (palvelu_poistettu == true) { // ainoastaan, jos vahvistettiin ja poisto onnistui
@@ -401,7 +401,7 @@ public class PalveluGUI extends JFrame {
 					txtKuvaus.setText("");
 					txtHinta.setText("");
 					txtAlv.setText("");
-					JOptionPane.showMessageDialog(null, "palvelu tiedot poistettu tietokannasta.");
+					JOptionPane.showMessageDialog(null, "Palvelu  poistettu tietokannasta.");
 					m_palvelu = null;
 				}
 			}
