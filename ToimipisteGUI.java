@@ -294,16 +294,16 @@ public class ToimipisteGUI extends JFrame {
 			} catch (SQLException se) {
 			// SQL virheet
             toimipiste_lisatty = false;
-				JOptionPane.showMessageDialog(null, "toimipiste lisaaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Toimipiste lisaaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 			//	 se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
             toimipiste_lisatty = false;
-				JOptionPane.showMessageDialog(null, "toimipiste lisaaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Toimipiste lisaaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
 			//	 e.printStackTrace();
 			}finally {
 				if (toimipiste_lisatty == true)
-					JOptionPane.showMessageDialog(null, "toimipistetiedot lisatty tietokantaan.");
+					JOptionPane.showMessageDialog(null, "Toimipistetiedot lisatty tietokantaan.");
 			}
 		
 		}
@@ -329,16 +329,16 @@ public class ToimipisteGUI extends JFrame {
 			} catch (SQLException se) {
 			// SQL virheet
             toimipiste_muutettu = false;
-				JOptionPane.showMessageDialog(null, "Asiakkaan tietojen muuttaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Toimipisteen tietojen muuttaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 				 //se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
 				toimipiste_muutettu = false;
-				JOptionPane.showMessageDialog(null, "Asiakkaan tietojen muuttaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Toimipisteen tietojen muuttaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
 				// e.printStackTrace();
 			} finally {
 				if (toimipiste_muutettu == true)
-					JOptionPane.showMessageDialog(null, "Asiakkaan tiedot muutettu.");
+					JOptionPane.showMessageDialog(null, "Toimipisteen tiedot muutettu.");
 			}
 		
 	}
@@ -351,10 +351,10 @@ public class ToimipisteGUI extends JFrame {
 			m_toimipiste = Toimipiste.haeToimipiste (m_conn, Integer.parseInt(txtToimipisteID.getText()));
 		} catch (SQLException se) {
 		// SQL virheet
-			JOptionPane.showMessageDialog(null, "Asiakasta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Toimipisteetta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
 		// muut virheet
-			JOptionPane.showMessageDialog(null, "Asiakasta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Toimipistetta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		}
 		if (m_toimipiste.getNimi() == null) {
 		// poistettavaa asiakasta ei löydy tietokannasta, tyhjennetään tiedot näytöltä
@@ -364,7 +364,7 @@ public class ToimipisteGUI extends JFrame {
 			txtPostitoimipaikka.setText("");
 			txtEmail.setText("");
 			txtPuhelinnro.setText("");
-			JOptionPane.showMessageDialog(null, "Asiakasta ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Toimipistetta ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
 			return; // poistutaan
 		}
 		else
@@ -378,17 +378,17 @@ public class ToimipisteGUI extends JFrame {
 			txtPuhelinnro.setText(m_toimipiste.getPuhelinnro());
 		}
 		try {
-			if (JOptionPane.showConfirmDialog(null, "Haluatko todella poistaa toimipiste?")==0) {// vahvistus ikkunassa
+			if (JOptionPane.showConfirmDialog(null, "Haluatko todella poistaa toimipisteen?")==0) {// vahvistus ikkunassa
 				m_toimipiste.poistaToimipiste (m_conn);
 				toimipiste_poistettu = true;
 			}
 			} catch (SQLException se) {
 			// SQL virheet
-				JOptionPane.showMessageDialog(null, "Asiakkaan tietojen poistaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Toimipisteen tietojen poistaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 				// se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
-				JOptionPane.showMessageDialog(null, "Asiakkaan tietojen poistaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Toimipisteen tietojen poistaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
 				// e.printStackTrace();
 			} finally {
 				if (toimipiste_poistettu == true) { // ainoastaan, jos vahvistettiin ja poisto onnistui
@@ -399,7 +399,7 @@ public class ToimipisteGUI extends JFrame {
 					txtPostitoimipaikka.setText("");
 					txtEmail.setText("");
 					txtPuhelinnro.setText("");
-					JOptionPane.showMessageDialog(null, "Asiakkaan tiedot poistettu tietokannasta.");
+					JOptionPane.showMessageDialog(null, "Toimipisteen tiedot poistettu tietokannasta.");
 					m_toimipiste = null;
 				}
 			}

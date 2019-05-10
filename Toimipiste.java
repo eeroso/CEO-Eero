@@ -80,7 +80,7 @@ public class Toimipiste {
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
 			if (tulosjoukko == null) {
-				throw new Exception("toimipiste ei loydy");
+				throw new Exception("Toimipistetta ei loydy");
 			}
 		} catch (SQLException se) {
             // SQL virheet
@@ -129,7 +129,7 @@ public class Toimipiste {
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
 			if (tulosjoukko.next () == true) { // asiakas loytyi
-				throw new Exception("toimipiste on jo olemassa");
+				throw new Exception("Toimipiste on jo olemassa");
 			}
 		} catch (SQLException se) {
             // SQL virheet
@@ -159,7 +159,7 @@ public class Toimipiste {
 			int lkm = lause.executeUpdate();	
 		//	System.out.println("lkm " + lkm);
 			if (lkm == 0) {
-				throw new Exception("toimipiste lisaaminen ei onnistu");
+				throw new Exception("Toimipiste lisaaminen ei onnistu");
 			}
 		} catch (SQLException se) {
             // SQL virheet
@@ -187,7 +187,7 @@ public class Toimipiste {
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
 			if (tulosjoukko.next () == false) { // asiakasta ei löytynyt
-				throw new Exception("Asiakasta ei loydy tietokannasta");
+				throw new Exception("Toimipistetta ei loydy tietokannasta");
 			}
 		} catch (SQLException se) {
             // SQL virheet
@@ -219,7 +219,7 @@ public class Toimipiste {
 			// suorita sql-lause
 			int lkm = lause.executeUpdate();	
 			if (lkm == 0) {
-				throw new Exception("Asiakkaan muuttaminen ei onnistu");
+				throw new Exception("Toimipisteen muuttaminen ei onnistu");
 			}
 		} catch (SQLException se) {
             // SQL virheet
@@ -247,7 +247,7 @@ public class Toimipiste {
 			// suorita sql-lause
 			int lkm = lause.executeUpdate();	
 			if (lkm == 0) {
-				throw new Exception("toimipiste poistaminen ei onnistu");
+				throw new Exception("Toimipisteen poistaminen ei onnistu");
 			}
 			} catch (SQLException se) {
             // SQL virheet
