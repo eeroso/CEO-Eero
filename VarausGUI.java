@@ -230,10 +230,10 @@ public class VarausGUI extends JFrame {
 			m_varaus = Varaus.haeVaraus (m_conn, Integer.parseInt(txtVarausID.getText()));
 		} catch (SQLException se) {
 		// SQL virheet
-			JOptionPane.showMessageDialog(null, "varausta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Varausta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
 		// muut virheet
-			JOptionPane.showMessageDialog(null, "varausta ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Varausta ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
 		}
 		if (m_varaus.getVarattu_alkupvm() == null) {
 		// muut virheet
@@ -244,7 +244,7 @@ public class VarausGUI extends JFrame {
 			txtVarattu_alkupvm.setText("");
 			txtVarattu_loppupvm.setText("");
 			
-			JOptionPane.showMessageDialog(null, "varausta ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Varausta ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
 		}
 		else
 		{
@@ -307,16 +307,16 @@ public class VarausGUI extends JFrame {
 			} catch (SQLException se) {
 			// SQL virheet
 				varaus_lisatty = false;
-				JOptionPane.showMessageDialog(null, "varauksen lisaaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Varauksen lisaaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 			//	 se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
 				varaus_lisatty = false;
-				JOptionPane.showMessageDialog(null, "varauksen lisaaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Varauksen lisaaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
 			//	 e.printStackTrace();
 			}finally {
 				if (varaus_lisatty == true)
-					JOptionPane.showMessageDialog(null, "varauksen tiedot lisatty tietokantaan.");
+					JOptionPane.showMessageDialog(null, "Varauksen tiedot lisatty tietokantaan.");
 			}
 		
 		//}
@@ -342,16 +342,16 @@ public class VarausGUI extends JFrame {
 			} catch (SQLException se) {
 			// SQL virheet
 				varaus_muutettu = false;
-				JOptionPane.showMessageDialog(null, "Asiakkaan tietojen muuttaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Varauksen tietojen muuttaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 				 //se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
 				varaus_muutettu = false;
-				JOptionPane.showMessageDialog(null, "Asiakkaan tietojen muuttaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Varauksen tietojen muuttaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
 				// e.printStackTrace();
 			} finally {
 				if (varaus_muutettu == true)
-					JOptionPane.showMessageDialog(null, "Asiakkaan tiedot muutettu.");
+					JOptionPane.showMessageDialog(null, "Varauksen tiedot muutettu.");
 			}
 		
 	}
@@ -364,10 +364,10 @@ public class VarausGUI extends JFrame {
 			m_varaus = Varaus.haeVaraus (m_conn, Integer.parseInt(txtVarausID.getText()));
 		} catch (SQLException se) {
 		// SQL virheet
-			JOptionPane.showMessageDialog(null, "Asiakasta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Varausta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
 		// muut virheet
-			JOptionPane.showMessageDialog(null, "Asiakasta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Varausta ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		}
 		if (String.valueOf(m_varaus.getVarausId()) == null) {
 		// poistettavaa asiakasta ei löydy tietokannasta, tyhjennetään tiedot näytöltä
@@ -378,7 +378,7 @@ public class VarausGUI extends JFrame {
 			txtVarattu_alkupvm.setText("");
 			txtVarattu_loppupvm.setText("");
 
-			JOptionPane.showMessageDialog(null, "Asiakasta ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Varausta ei loydy.", "Virhe", JOptionPane.ERROR_MESSAGE);
 			return; // poistutaan
 		}
 		else
@@ -392,17 +392,17 @@ public class VarausGUI extends JFrame {
 			txtVarattu_loppupvm.setText(m_varaus.getVarattu_loppupvm());
 		}
 		try {
-			if (JOptionPane.showConfirmDialog(null, "Haluatko todella poistaa asiakkaan?")==0) {// vahvistus ikkunassa
+			if (JOptionPane.showConfirmDialog(null, "Haluatko todella poistaa varauksen?")==0) {// vahvistus ikkunassa
 				m_varaus.poistaVaraus (m_conn);
 				varaus_poistettu = true;
 			}
 			} catch (SQLException se) {
 			// SQL virheet
-				JOptionPane.showMessageDialog(null, "Asiakkaan tietojen poistaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Varauksen tietojen poistaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 				// se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
-				JOptionPane.showMessageDialog(null, "Asiakkaan tietojen poistaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Varauksen tietojen poistaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
 				// e.printStackTrace();
 			} finally {
 				if (varaus_poistettu == true) { // ainoastaan, jos vahvistettiin ja poisto onnistui
@@ -414,7 +414,7 @@ public class VarausGUI extends JFrame {
 					txtVarattu_alkupvm.setText("");
 					txtVarattu_loppupvm.setText("");
 
-					JOptionPane.showMessageDialog(null, "Asiakkaan tiedot poistettu tietokannasta.");
+					JOptionPane.showMessageDialog(null, "Varauksen tiedot poistettu tietokannasta.");
 					m_varaus = null;
 				}
 			}

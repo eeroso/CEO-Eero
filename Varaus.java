@@ -205,7 +205,7 @@ public class Varaus {
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
 			if (tulosjoukko.next () == false) { // asiakasta ei löytynyt
-				throw new Exception("varausta ei loydy tietokannasta");
+				throw new Exception("Varausta ei loydy tietokannasta");
 			}
 		} catch (SQLException se) {
             // SQL virheet
@@ -238,7 +238,7 @@ public class Varaus {
 			// suorita sql-lause
 			int lkm = lause.executeUpdate();	
 			if (lkm == 0) {
-				throw new Exception("Asiakkaan muuttaminen ei onnistu");
+				throw new Exception("Varauksen muuttaminen ei onnistu");
 			}
 		} catch (SQLException se) {
             // SQL virheet
