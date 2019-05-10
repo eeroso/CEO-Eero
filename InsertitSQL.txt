@@ -1,0 +1,66 @@
+use ohjelmistotuotanto;
+
+INSERT INTO asiakas (asiakas_id,etunimi,sukunimi,lahiosoite,postitoimipaikka,postinro,email,puhelinnro)
+	VALUES(1,'Tomi','Ketolainen','Kalevankatu 12 B 3', 'Joensuu','80100','tomi.keto@hotmail.com','0504225219');
+
+INSERT INTO asiakas (asiakas_id,etunimi,sukunimi,lahiosoite,postitoimipaikka,postinro,email,puhelinnro)
+	VALUES(5,'Minna','Lappalainen','Jokitie 13', 'Tampere','10123','minna84@gmail.com','0443250957');
+
+INSERT INTO asiakas (asiakas_id,etunimi,sukunimi,lahiosoite,postitoimipaikka,postinro,email,puhelinnro)
+	VALUES(54,'Sami','Pyykkonen','Kauppakatu 14 B 23', 'Rovaniemi','90198','samipyk@uef.fi','0508320777');
+	
+		
+
+
+INSERT INTO toimipiste (toimipiste_id,nimi,lahiosoite,postitoimipaikka,postinro,email,puhelinnro)
+	VALUES(2,'PunkaharjuVillage','Punkaharjuntie 23', 'Punkaharju', '71240', 'punkahrj@village.fi', '044321122');
+
+INSERT INTO toimipiste (toimipiste_id,nimi,lahiosoite,postitoimipaikka,postinro,email,puhelinnro)
+	VALUES(7,'RovaniemiVillage','Joulu-ukontie 2', 'Rovaniemi', '90280', 'rovaniem@village.fi', '044321127');
+	
+INSERT INTO toimipiste (toimipiste_id,nimi,lahiosoite,postitoimipaikka,postinro,email,puhelinnro)
+	VALUES(5,'KalajokiVillage','Kalatie 44', 'Kalajoki', '23405', 'kalajok@village.fi', '044321125');
+		
+	
+	
+INSERT INTO varaus (varaus_id,asiakas_id,toimipiste_id,varattu_pvm,vahvistus_pvm,varattu_alkupvm,varattu_loppupvm)
+	VALUES(10,1,2,'2019-04-20 15:45:00', '2019-04-22 14:00:00', '2019-06-20 12:00:00', '2019-06-30 12:00:00');
+
+INSERT INTO varaus (varaus_id,asiakas_id,toimipiste_id,varattu_pvm,vahvistus_pvm,varattu_alkupvm,varattu_loppupvm)
+	VALUES(50,5,5,'2019-03-25 14:00:00', '2019-04-27 13:30:00', '2019-05-22 12:00:00', '2019-06-30 12:00:00');
+
+INSERT INTO varaus (varaus_id,asiakas_id,toimipiste_id,varattu_pvm,vahvistus_pvm,varattu_alkupvm,varattu_loppupvm)
+	VALUES(42,54,7,'2019-02-10 12:30:00', '2019-02-23 12:00:00', '2019-07-10 12:00:00', '2019-07-20 12:00:00');
+
+
+
+INSERT INTO palvelu (palvelu_id, toimipiste_id ,nimi,tyyppi,kuvaus,hinta,alv)
+	VALUES (23,2,'Melonta', 4, 'Melontaa toimipisteen viereisella lammella. Valittavana yhden tai kahden hengen kajakkeja.', 25.00, 5);
+
+INSERT INTO palvelu (palvelu_id, toimipiste_id ,nimi,tyyppi,kuvaus,hinta,alv)
+	VALUES (10,7,'Joulupukki', 5, 'Asiakas paasee tapamaan joulupukkia korvatunturille.', 100.00, 23);
+
+INSERT INTO palvelu (palvelu_id, toimipiste_id ,nimi,tyyppi,kuvaus,hinta,alv)
+	VALUES (43,5,'Veneretki', 2, 'Veneretki kalajoella ja merella.', 50.00, 10);
+
+	
+	
+INSERT INTO lasku (lasku_id, varaus_id, asiakas_id,nimi,lahiosoite,postitoimipaikka,postinro,summa,alv)
+	VALUES (2244,10,1,'Tomi Ketolainen', 'Kalevankatu 12 B 3','Joensuu','80100', 585, 100);
+
+INSERT INTO lasku (lasku_id, varaus_id, asiakas_id,nimi,lahiosoite,postitoimipaikka,postinro,summa,alv)
+	VALUES (1004,50,5,'Minna Lappalainen', 'Jokitie 13','Tampere','10123', 1123, 123);
+	
+INSERT INTO lasku (lasku_id, varaus_id, asiakas_id,nimi,lahiosoite,postitoimipaikka,postinro,summa,alv)
+	VALUES (998,42,54,'Sami Pyykkonen', 'Kauppakatu 14 B 23','Rovaniemi','90198', 223, 50);
+	
+
+
+INSERT INTO varauksen_palvelut (varaus_id,palvelu_id,lkm)
+	VALUES (10,23,1);
+
+INSERT INTO varauksen_palvelut (varaus_id,palvelu_id,lkm)
+	VALUES (50,10,3);
+
+INSERT INTO varauksen_palvelut (varaus_id,palvelu_id,lkm)
+	VALUES (50,43,1);
