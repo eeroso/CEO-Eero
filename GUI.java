@@ -10,8 +10,7 @@ import javax.swing.event.*;
 
 public class GUI extends JPanel {
 
-    
-
+    //napit
     private JButton btnAsiakas;
     private JButton btnToimipiste;
     private JButton btnPalvelu;
@@ -19,31 +18,32 @@ public class GUI extends JPanel {
     private JButton btnVaraus;
 
     public GUI() {
-        //construct components
+        //komponentit
         btnAsiakas = new JButton ("Asiakas");
         btnToimipiste = new JButton ("Toimipiste");
         btnPalvelu = new JButton ("Palvelu");
         btnLasku = new JButton ("Lasku");
         btnVaraus = new JButton ("Varaus");
 
-        //adjust size and set layout
+        //koon säätö
         setPreferredSize (new Dimension (944, 574));
         setLayout (null);
 
-        //add components
+        //komponentit
         add (btnAsiakas);
         add (btnToimipiste);
         add (btnPalvelu);
         add (btnLasku);
         add (btnVaraus);
 
-        //set component bounds (only needed by Absolute Positioning)
+        //nappien sijainnit
         btnAsiakas.setBounds (400, 40, 117, 50);
         btnToimipiste.setBounds (400, 120, 117, 50);
         btnPalvelu.setBounds (400, 200, 117, 50);
         btnLasku.setBounds (400, 280, 117, 50);
         btnVaraus.setBounds (400, 360, 117, 50);
-   
+     
+        //laitetaan kukin nappi avaamaan sille tarkoitetun toisen GUI:n
         btnAsiakas.addActionListener(   // toteutetaan  käyttämällä Javan ns. nimettömiä sisäluokkia
 			new ActionListener () {// parametrina luotavan "rajapintaluokan ilmentymä": new ActionListener()
 				public void actionPerformed(ActionEvent actEvent) {	
@@ -94,12 +94,7 @@ public class GUI extends JPanel {
    
    
     }
-
-
-
-
-
-
+    
     public static void main (String[] args) {
         JFrame frame = new JFrame ("MasterGUI");
 
