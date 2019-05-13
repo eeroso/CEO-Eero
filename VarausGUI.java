@@ -16,6 +16,8 @@ public class VarausGUI extends JFrame {
 	private JLabel lblVahvistus_pvm;
     private JLabel lblVarattu_alkupvm;
 	private JLabel lblVarattu_loppupvm;
+	private JLabel lblPvm_alku;
+	private JLabel lblPvm_loppu;
 
 //käyttöliittymän tekstikentät
 	private JTextField txtVarausID;
@@ -25,12 +27,15 @@ public class VarausGUI extends JFrame {
 	private JTextField txtVahvistus_pvm;
     private JTextField txtVarattu_alkupvm;
 	private JTextField txtVarattu_loppupvm;
+	private JTextField txtPvm_alku;
+	private JTextField txtPvm_loppu;
  
 // käyttöliittymän painikkeet	
     private JButton btnLisaa;
     private JButton btnMuuta;
 	private JButton btnHae;
 	private JButton btnPoista;
+	private JButton btnHaeraportti;
 	private JButton btnPaluu;
 	
     public VarausGUI() {
@@ -42,6 +47,8 @@ public class VarausGUI extends JFrame {
 		lblVahvistus_pvm = new JLabel("Vahvistus_pvm");
 		lblVarattu_alkupvm = new JLabel("Varattu_alkupvm");
 		lblVarattu_loppupvm = new JLabel("Varattu_loppupvm");
+		lblPvm_alku = new JLabel("Hae valilta, alku pvm");
+		lblPvm_loppu = new JLabel("Hae valilta, loppu pvm");
 
 		
 		txtVarausID = new JTextField (6);
@@ -50,13 +57,16 @@ public class VarausGUI extends JFrame {
 		txtVarattu_pvm = new JTextField (36);
 		txtVahvistus_pvm = new JTextField (5);
 		txtVarattu_alkupvm = new JTextField (26);
-		txtVarattu_loppupvm= new JTextField (36);
+		txtVarattu_loppupvm = new JTextField (36);
+		txtPvm_alku = new JTextField (26);
+		txtPvm_loppu = new JTextField (36);
 
 
         btnHae = new JButton("Hae");
 		btnMuuta = new JButton("Muuta");
 		btnLisaa = new JButton("Lisaa");
 		btnPoista = new JButton("Poista");
+		btnHaeraportti = new JButton("Hae valilta");
 		btnPaluu = new JButton("Lopeta");
 
 		// lisätään hakupainikkeelle tapahtumakuuntelija
@@ -113,13 +123,22 @@ public class VarausGUI extends JFrame {
 						
         }
       }
-    );
+	);
+	btnHaeraportti.addActionListener(   // toteutetaan  käyttämällä Javan ns. nimettömiä sisäluokkia
+			new ActionListener () {// parametrina luotavan "rajapintaluokan ilmentymä": new ActionListener()
+				public void actionPerformed(ActionEvent actEvent) {	
+						hae_raportti ();
+						JOptionPane.showMessageDialog(null, "Raportti kirjoitettu haetuilta aikavaleilta");
+					
+				}
+			}
+		);
 		// näytön paneli, jossa vasen ja oikea puoli
         JPanel p1 = new JPanel();
         p1.setLayout(new GridLayout(1, 2));
 		// vasemman reunan paneli, jossa kenttien otsikot ja tietokentät
         JPanel p2 = new JPanel();
-        p2.setLayout(new GridLayout(7, 2));
+        p2.setLayout(new GridLayout(9, 2));
 		
         p2.add(lblVarausID);
         p2.add(txtVarausID);
@@ -141,6 +160,12 @@ public class VarausGUI extends JFrame {
 		
 		p2.add(lblVarattu_loppupvm);
 		p2.add(txtVarattu_loppupvm);
+
+		p2.add(lblPvm_alku);
+		p2.add(txtPvm_alku);
+
+		p2.add(lblPvm_loppu);
+		p2.add(txtPvm_loppu);
 		
 
 
@@ -151,6 +176,7 @@ public class VarausGUI extends JFrame {
 		p3.add(btnMuuta);
 		p3.add(btnLisaa);
 		p3.add(btnPoista); 
+		p3.add(btnHaeraportti);
 		p3.add(btnPaluu); 
 
         p1.add(p2);
@@ -162,7 +188,7 @@ public class VarausGUI extends JFrame {
 		setLocation(100, 100); // Ikkunan paikka 
 		setSize(800, 400);     // Ikkunan koko leveys, korkeus
 		setTitle("Varaus");  // yläpalkkiin otsikko
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // osaa loppua
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // osaa loppua
 		setVisible(true); // lomake näkyviin
 	
 		// avataan tietokanta
@@ -352,6 +378,28 @@ public class VarausGUI extends JFrame {
 			} finally {
 				if (varaus_muutettu == true)
 					JOptionPane.showMessageDialog(null, "Varauksen tiedot muutettu.");
+			}
+		
+	}
+	public  void hae_raportti() {
+	
+		m_varaus.setToimipisteId(Integer.parseInt(txtToimipisteID.getText()));
+		m_varaus.setPvmalku(txtPvm_alku.getText());
+		m_varaus.setPvmloppu(txtPvm_loppu.getText());
+		
+			try {
+				// yritetään muuttaa (UPDATE) tiedot kantaan
+				m_varaus.haeRaportti (m_conn);
+			} catch (SQLException se) {
+			// SQL virheet
+				
+				JOptionPane.showMessageDialog(null, "Hakuehdoilla ei loytynyt varauksia.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
+				 //se.printStackTrace();
+			} catch (Exception e) {
+			// muut virheet
+			
+				JOptionPane.showMessageDialog(null, "Haku ei onnistunut", "Virhe", JOptionPane.ERROR_MESSAGE);
+				// e.printStackTrace();
 			}
 		
 	}

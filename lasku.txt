@@ -1,0 +1,9 @@
+Lasku ID: 1004
+Varaus ID: 50
+Asiakas ID: 5
+Nimi: Minni Lappalainen
+Lähiosoite: Jokitie 13
+Postitoimipaikka: Tampere
+Postinumero: 10123
+Summa: 1123.0
+Alv: 123.0

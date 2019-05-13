@@ -155,7 +155,7 @@ public class ToimipisteGUI extends JFrame {
 		setLocation(100, 100); // Ikkunan paikka 
 		setSize(800, 400);     // Ikkunan koko leveys, korkeus
 		setTitle("Toimipiste");  // yläpalkkiin otsikko
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // osaa loppua
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // osaa loppua
 		setVisible(true); // lomake näkyviin
 	
 		// avataan tietokanta

@@ -1,5 +1,10 @@
 import java.sql.*;
 import java.lang.*;
+/**
+ * @author Eero Sormunen
+ * @version 2.0
+ * @since 13.5.2019
+ **/ 
 public class Palvelu {
 	
     // attribuutit, vastaavat tietokantataulun sarakkeita

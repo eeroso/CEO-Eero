@@ -1,15 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
  *
- * @author MonkkonenE
- */
+ * @author Eero Sormunen
+ * @version 2.0
+ * @since 13.5.2019 
+ **/
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.lang.*;
+import java.util.*;
 public class Varaus {
 	
 	// attribuutit, vastaavat tietokantataulun sarakkeita
@@ -20,6 +22,8 @@ public class Varaus {
 	private String m_vahvistus_pvm;
 	private String m_varattu_alkupvm;
 	private String m_varattu_loppupvm;
+	private String m_pvm_alku;
+	private String m_pvm_loppu;
 
     public Varaus(){
  
@@ -47,6 +51,12 @@ public class Varaus {
 	public String getVarattu_loppupvm() {
 		return m_varattu_loppupvm;
 	}
+	public String getPvmalku() {
+		return m_pvm_alku;
+	}
+	public String getPvmloppu() {
+		return m_pvm_loppu;
+	}
 
 
 	public void setVarausId (int id)
@@ -70,6 +80,12 @@ public class Varaus {
 	}
 	public void setVarattu_loppupvm (String loppvm) {
 		m_varattu_loppupvm = loppvm;
+	}
+	public void setPvmalku (String pvmalku) {
+		m_pvm_alku = pvmalku;
+	}
+	public void setPvmloppu (String pvmlop) {
+		m_pvm_loppu = pvmlop;
 	}
 
 
@@ -276,5 +292,43 @@ public class Varaus {
                 throw e;
 		}
 		return 0; // toiminto ok
+	}
+	public int haeRaportti (Connection connection) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
+	
+		String sql = "SELECT toimipiste_id, varattu_alkupvm, varattu_loppupvm" 
+					+ " FROM varaus WHERE varattu_alkupvm AND varattu_loppupvm BETWEEN ? AND ? AND toimipiste_id = ?"; // sql lause jolla haetaan halutut tiedot
+		ResultSet tulosjoukko = null;
+		PreparedStatement lause = null;
+		FileWriter writer = new FileWriter("raportti.txt"); //tekstitiedosto johon raportti tulee
+		BufferedWriter data = new BufferedWriter(writer);
+		ArrayList<Object> lista = new ArrayList<Object>();
+		try {
+			// luo PreparedStatement-olio sql-lauseelle
+			lause = connection.prepareStatement(sql);
+			lause.setString( 1, getPvmalku()); 
+			lause.setString( 2, getPvmloppu());
+			lause.setInt( 3, getToimipisteId()); // asetetaan where ehtoon (?) arvo
+			// suorita sql-lause
+			tulosjoukko = lause.executeQuery();	
+			while ( tulosjoukko.next() ) {
+				int toimipisteid = tulosjoukko.getInt("toimipiste_id"); //kannasta tiedot
+				String alkupvm = tulosjoukko.getString("varattu_alkupvm");
+				String loppupvm = tulosjoukko.getString("varattu_loppupvm");
+				System.out.println("Toimipiste ID: " + toimipisteid + "  " + "Varattu alkupvm: " + alkupvm + "  " + "Varattu loppupvm :" + loppupvm); //tulostus
+				lista.add("Toimipiste ID: " + toimipisteid + "  " + "Varattu alkupvm: " + alkupvm + "  " + "Varattu loppupvm :" + loppupvm); //lisätään tiedot aina listalle, joten useammatkin varaukset formatoituu hyvin
+			
+			}
+			String lista1 = lista.toString(); //objetkilista string muotoon että voi kirjoittaa
+			data.write(lista1); //kirjoita tiedostoon
+			data.close(); //sulje kirjoittaja
+		} catch (SQLException se) {
+            // SQL virheet
+                    throw se;
+                } catch (Exception e) {
+            // JDBC virheet
+                    throw e;
+		}
+		return 0; //kaikki ok
+		
 	}
 }
