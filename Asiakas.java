@@ -77,7 +77,6 @@ public class Asiakas {
     }
 	/*
 	Haetaan asiakkaan tiedot ja palautetaan asiakasolio kutsujalle.
-	Staattinen metodi, ei vaadi fyysisen olion olemassaoloa.
 	*/
 	public static Asiakas haeAsiakas (Connection connection, int id) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
 		// haetaan tietokannasta asiakasta, jonka asiakas_id = id 
@@ -106,7 +105,6 @@ public class Asiakas {
 		
 		try {
 			if (tulosjoukko.next () == true){
-				//asiakas_id, etunimi, sukunimi, lahiosoite, postitoimipaikka, postinro, email, puhelinnro
 				asiakasOlio.setAsiakasId (tulosjoukko.getInt("asiakas_id"));
 				asiakasOlio.setEtunimi (tulosjoukko.getString("etunimi"));
 				asiakasOlio.setSukunimi(tulosjoukko.getString("sukunimi"));
@@ -155,7 +153,6 @@ public class Asiakas {
 		sql = "INSERT INTO Asiakas "
 		+ "(asiakas_id, etunimi, sukunimi, lahiosoite, postitoimipaikka, postinro, email, puhelinnro) "
 		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-		// System.out.println("Lisataan " + sql);
 		lause = null;
 		try {
 			// luo PreparedStatement-olio sql-lauseelle
@@ -171,7 +168,6 @@ public class Asiakas {
 			lause.setString(8, getPuhelinnro ());
 			// suorita sql-lause
 			int lkm = lause.executeUpdate();	
-		//	System.out.println("lkm " + lkm);
 			if (lkm == 0) {
 				throw new Exception("Asiakaan lisaaminen ei onnistu");
 			}

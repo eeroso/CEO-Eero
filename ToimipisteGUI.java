@@ -155,7 +155,7 @@ public class ToimipisteGUI extends JFrame {
 		setLocation(100, 100); // Ikkunan paikka 
 		setSize(800, 400);     // Ikkunan koko leveys, korkeus
 		setTitle("Toimipiste");  // yläpalkkiin otsikko
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // osaa loppua
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // ei sammuta Master GUI:ta
 		setVisible(true); // lomake näkyviin
 	
 		// avataan tietokanta
@@ -183,7 +183,7 @@ public class ToimipisteGUI extends JFrame {
 		m_conn = null;
 		String url = "jdbc:mariadb://localhost:3306/villagepeople"; // palvelin = localhost, :portti annettu asennettaessa, tietokannan nimi
 		try {
-			// ota yhteys kantaan, kayttaja = root, salasana = root
+			// ota yhteys kantaan
 			m_conn=DriverManager.getConnection(url,"root","qjwax2ic");
 		}
 		catch (SQLException e) { // tietokantaan ei saada yhteyttä
@@ -253,7 +253,6 @@ public class ToimipisteGUI extends JFrame {
 	*/
 	public  void lisaa_tiedot() {
 		// lisätään tietokantaan asiakas
-		//System.out.println("Lisataan...");
 		boolean toimipiste_lisatty = true;
 		m_toimipiste = null;
 		try {
@@ -295,12 +294,12 @@ public class ToimipisteGUI extends JFrame {
 			// SQL virheet
             toimipiste_lisatty = false;
 				JOptionPane.showMessageDialog(null, "Toimipiste lisaaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
-			//	 se.printStackTrace();
+		
 			} catch (Exception e) {
 			// muut virheet
             toimipiste_lisatty = false;
 				JOptionPane.showMessageDialog(null, "Toimipiste lisaaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
-			//	 e.printStackTrace();
+			
 			}finally {
 				if (toimipiste_lisatty == true)
 					JOptionPane.showMessageDialog(null, "Toimipistetiedot lisatty tietokantaan.");
@@ -313,7 +312,7 @@ public class ToimipisteGUI extends JFrame {
 	Viedään näytöllä olevat tiedot Toimipisteoliolle ja muutetaan ne tietokantaan
 	*/
 	public  void muuta_tiedot() {
-		//System.out.println("Muutetaan...");
+		
 			boolean toimipiste_muutettu = true;
 		// asetetaan tiedot oliolle
 			m_toimipiste.setNimi(txtNimi.getText());
@@ -330,12 +329,12 @@ public class ToimipisteGUI extends JFrame {
 			// SQL virheet
             toimipiste_muutettu = false;
 				JOptionPane.showMessageDialog(null, "Toimipisteen tietojen muuttaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
-				 //se.printStackTrace();
+	
 			} catch (Exception e) {
 			// muut virheet
 				toimipiste_muutettu = false;
 				JOptionPane.showMessageDialog(null, "Toimipisteen tietojen muuttaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
-				// e.printStackTrace();
+	
 			} finally {
 				if (toimipiste_muutettu == true)
 					JOptionPane.showMessageDialog(null, "Toimipisteen tiedot muutettu.");
@@ -385,11 +384,8 @@ public class ToimipisteGUI extends JFrame {
 			} catch (SQLException se) {
 			// SQL virheet
 				JOptionPane.showMessageDialog(null, "Toimipisteen tietojen poistaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
-				// se.printStackTrace();
 			} catch (Exception e) {
-			// muut virheet
 				JOptionPane.showMessageDialog(null, "Toimipisteen tietojen poistaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
-				// e.printStackTrace();
 			} finally {
 				if (toimipiste_poistettu == true) { // ainoastaan, jos vahvistettiin ja poisto onnistui
 					txtToimipisteID.setText("");

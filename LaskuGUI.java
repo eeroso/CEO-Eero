@@ -7,7 +7,7 @@ import java.util.*;
 
 public class LaskuGUI extends JFrame {
 //
-    private Lasku m_lasku = new Lasku (); // varausolio, jota tässä pääsääntöisesti käsitellään
+    private Lasku m_lasku = new Lasku (); //laskuolio, jota tässä pääsääntöisesti käsitellään
 	private Connection m_conn; // tietokantayhteys
 // käyttöliittymän otsikkokentät
     private JLabel lblLaskuID;
@@ -199,7 +199,7 @@ public class LaskuGUI extends JFrame {
 		setLocation(100, 100); // Ikkunan paikka 
 		setSize(1000, 500);     // Ikkunan koko leveys, korkeus
 		setTitle("Lasku");  // yläpalkkiin otsikko
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // osaa loppua
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //ei sammuta masterguita
 		setVisible(true); // lomake näkyviin
 	
 		// avataan tietokanta
@@ -227,7 +227,6 @@ public class LaskuGUI extends JFrame {
 		m_conn = null;
 		String url = "jdbc:mariadb://localhost:3306/villagepeople"; // palvelin = localhost, :portti annettu asennettaessa, tietokannan nimi
 		try {
-			// ota yhteys kantaan, kayttaja = root, salasana = root
 			m_conn=DriverManager.getConnection(url,"root","qjwax2ic");
 		}
 		catch (SQLException e) { // tietokantaan ei saada yhteyttä
@@ -257,10 +256,9 @@ public class LaskuGUI extends JFrame {
 		
 	}
 	/*
-	Haetaan tietokannasta asiakkaan tiedot näytöllä olebvan varausid:n perusteella ja näytetään tiedot lomakkeella
+	Haetaan tietokannasta laskun tiedot näytöllä olebvan id:n perusteella ja näytetään tiedot lomakkeella
 	*/
 	public  void hae_tiedot() {
-		// haetaan tietokannasta varausta, jonka varaus_id = txtvarausID 
 		m_lasku = null;
 		
 		try {
@@ -301,11 +299,10 @@ public class LaskuGUI extends JFrame {
 		
 	}
 	/*
-	Viedään näytöllä olevat tiedot varausoliolle ja kirjoitetaan ne tietokantaan 
+	Viedään näytöllä olevat tiedot laskuoliolle ja kirjoitetaan ne tietokantaan 
 	*/
 	public  void lisaa_tiedot() {
-		// lisätään tietokantaan varaus
-		//System.out.println("Lisataan...");
+		// lisätään tietokantaan lasku
 		boolean lasku_lisatty = true;
 		m_lasku = null;
 		try {
@@ -319,23 +316,6 @@ public class LaskuGUI extends JFrame {
 			lasku_lisatty = false;
 			JOptionPane.showMessageDialog(null, "Tietokantavirhe.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		}
-		/*if (String.valueOf(m_lasku.getNimi()) != null) {
-		// varaus jo olemassa, näytetään tiedot
-			lasku_lisatty = false;
-			txtLaskuID.setText(String.valueOf(m_lasku.getLaskuId()));
-			txtVarausID.setText(String.valueOf(m_lasku.getVarausId()));
-			txtAsiakasID.setText(String.valueOf(m_lasku.getAsiakasId()));
-			txtNimi.setText(m_lasku.getNimi());
-			txtLahiosoite.setText(m_lasku.getLahiosoite());
-            txtPostitoimipaikka.setText(m_lasku.getPostitoimipaikka());
-            txtPostinro.setText(m_lasku.getPostinro());
-            txtSumma.setText(String.valueOf(m_lasku.getSumma()));
-            txtAlv.setText(String.valueOf(m_lasku.getAlv()));
-            
-			JOptionPane.showMessageDialog(null, "Lasku on jo olemassa.", "Virhe", JOptionPane.ERROR_MESSAGE);
-		}*/
-		//else
-		 //{
             // asetetaan tiedot oliolle
             m_lasku.setLaskuId(Integer.parseInt(txtLaskuID.getText()));
 			m_lasku.setVarausId(Integer.parseInt(txtVarausID.getText()));
@@ -354,25 +334,21 @@ public class LaskuGUI extends JFrame {
 			// SQL virheet
 				lasku_lisatty = false;
 				JOptionPane.showMessageDialog(null, "Laskun lisaaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
-			//	 se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
 				lasku_lisatty = false;
 				JOptionPane.showMessageDialog(null, "Laskun lisaaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
-			//	 e.printStackTrace();
 			}finally {
 				if (lasku_lisatty == true)
 					JOptionPane.showMessageDialog(null, "Laskun tiedot lisatty tietokantaan.");
 			}
 		
-		//}
 		
 	}
 	/*
-	Viedään näytöllä olevat tiedot varausoliolle ja muutetaan ne tietokantaan
+	Viedään näytöllä olevat tiedot laskuoliollr ja muutetaan ne tietokantaan
 	*/
 	public  void muuta_tiedot() {
-		//System.out.println("Muutetaan...");
 			boolean lasku_muutettu = true;
 		// asetetaan tiedot oliolle
         m_lasku.setLaskuId(Integer.parseInt(txtLaskuID.getText()));
@@ -392,12 +368,10 @@ public class LaskuGUI extends JFrame {
 			// SQL virheet
 				lasku_muutettu = false;
 				JOptionPane.showMessageDialog(null, "Varauksen tietojen muuttaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
-				 //se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
 				lasku_muutettu = false;
 				JOptionPane.showMessageDialog(null, "Varauksen tietojen muuttaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
-				// e.printStackTrace();
 			} finally {
 				if (lasku_muutettu == true)
 					JOptionPane.showMessageDialog(null, "Varauksen tiedot muutettu.");
@@ -408,7 +382,7 @@ public class LaskuGUI extends JFrame {
     public  void paperi_lasku() { //paperilaskun kirjoittamiseen
         m_lasku = null;
         try {
-			m_lasku = Lasku.haeLasku (m_conn, Integer.parseInt(txtLaskuID.getText()), Integer.parseInt(txtVarausID.getText()));
+			m_lasku = Lasku.haeLasku (m_conn, Integer.parseInt(txtLaskuID.getText()), Integer.parseInt(txtVarausID.getText())); //parametreina yhteys ja 2 eri ID:tä
 		} catch (SQLException se) {
 		// SQL virheet
 			JOptionPane.showMessageDialog(null, "Laskua ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
@@ -417,7 +391,7 @@ public class LaskuGUI extends JFrame {
 			JOptionPane.showMessageDialog(null, "Laskua ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		}
 		if (String.valueOf(m_lasku.getVarausId()) == null) {
-		// poistettavaa asiakasta ei löydy tietokannasta, tyhjennetään tiedot näytöltä
+		//tyhjennetään tiedot
         txtVarausID.setText("");
         txtAsiakasID.setText("");
         txtNimi.setText("");
@@ -432,7 +406,6 @@ public class LaskuGUI extends JFrame {
 		}
 		else
 		{
-			// naytetaan poistettavan asiakkaan tiedot
 			txtLaskuID.setText(String.valueOf(m_lasku.getLaskuId()));
 			txtVarausID.setText(String.valueOf(m_lasku.getVarausId()));
 			txtAsiakasID.setText(String.valueOf(m_lasku.getAsiakasId()));
@@ -445,21 +418,19 @@ public class LaskuGUI extends JFrame {
         }
         
         try {
-			 m_lasku.paperiLasku (m_conn, Integer.parseInt(txtLaskuID.getText()), Integer.parseInt(txtVarausID.getText()));
+			 m_lasku.paperiLasku (m_conn, Integer.parseInt(txtLaskuID.getText()), Integer.parseInt(txtVarausID.getText())); //ajetaan funktio
 			}
 			catch (SQLException se) {
 			// SQL virheet
 				JOptionPane.showMessageDialog(null, "Varauksen tietojen poistaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
-				// se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
 				JOptionPane.showMessageDialog(null, "Varauksen tietojen poistaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
-				// e.printStackTrace();
 			}
 
     }
 	public  void poista_tiedot() {
-		// haetaan tietokannasta asiakasta, jonka asiakas_id = txtAsiakasID 
+		// haetaan tietokannasta laskua
 		m_lasku = null;
 		boolean lasku_poistettu = false;
 		
@@ -473,7 +444,7 @@ public class LaskuGUI extends JFrame {
 			JOptionPane.showMessageDialog(null, "Laskua ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		}
 		if (String.valueOf(m_lasku.getVarausId()) == null) {
-		// poistettavaa asiakasta ei löydy tietokannasta, tyhjennetään tiedot näytöltä
+		// poistettavaa laskua ei löydy tietokannasta, tyhjennetään tiedot näytöltä
         txtVarausID.setText("");
         txtAsiakasID.setText("");
         txtNimi.setText("");
@@ -488,7 +459,7 @@ public class LaskuGUI extends JFrame {
 		}
 		else
 		{
-			// naytetaan poistettavan asiakkaan tiedot
+			// naytetaan poistettavan laskun tiedot
 			txtLaskuID.setText(String.valueOf(m_lasku.getLaskuId()));
 			txtVarausID.setText(String.valueOf(m_lasku.getVarausId()));
 			txtAsiakasID.setText(String.valueOf(m_lasku.getAsiakasId()));
@@ -507,11 +478,9 @@ public class LaskuGUI extends JFrame {
 			} catch (SQLException se) {
 			// SQL virheet
 				JOptionPane.showMessageDialog(null, "Varauksen tietojen poistaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
-				// se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
 				JOptionPane.showMessageDialog(null, "Varauksen tietojen poistaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
-				// e.printStackTrace();
 			} finally {
 				if (lasku_poistettu == true) { // ainoastaan, jos vahvistettiin ja poisto onnistui
 					txtVarausID.setText("");

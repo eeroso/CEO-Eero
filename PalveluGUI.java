@@ -155,7 +155,7 @@ public class PalveluGUI extends JFrame {
 		setLocation(100, 100); // Ikkunan paikka 
 		setSize(800, 400);     // Ikkunan koko leveys, korkeus
 		setTitle("Palvelut");  // yläpalkkiin otsikko
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // osaa loppua
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //ei sammuta master guita
 		setVisible(true); // lomake näkyviin
 	
 		// avataan tietokanta
@@ -183,7 +183,7 @@ public class PalveluGUI extends JFrame {
 		m_conn = null;
 		String url = "jdbc:mariadb://localhost:3306/villagepeople"; // palvelin = localhost, :portti annettu asennettaessa, tietokannan nimi
 		try {
-			// ota yhteys kantaan, kayttaja = root, salasana = root
+	
 			m_conn=DriverManager.getConnection(url,"root","qjwax2ic");
 		}
 		catch (SQLException e) { // tietokantaan ei saada yhteyttä
@@ -252,8 +252,6 @@ public class PalveluGUI extends JFrame {
 	Viedään näytöllä olevat tiedot asiakasoliolle ja kirjoitetaan ne tietokantaan
 	*/
 	public  void lisaa_tiedot() {
-		// lisätään tietokantaan asiakas
-		//System.out.println("Lisataan...");
 		boolean palvelu_lisatty = true;
 		m_palvelu = null;
 		try {
@@ -268,7 +266,7 @@ public class PalveluGUI extends JFrame {
 			JOptionPane.showMessageDialog(null, "Tietokantavirhe.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		}
 		if (m_palvelu.getNimi() != null) {
-		// asiakas jo olemassa, näytetään tiedot
+		//palvelu jo olemassa, näytetään tiedot
         palvelu_lisatty = false;
 			txtToimipisteID.setText(String.valueOf(m_palvelu.getToimipisteId()));
 			txtNimi.setText(m_palvelu.getNimi());
@@ -296,12 +294,12 @@ public class PalveluGUI extends JFrame {
 			// SQL virheet
             palvelu_lisatty = false;
 				JOptionPane.showMessageDialog(null, "Palvelun lisaaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
-			//	 se.printStackTrace();
+
 			} catch (Exception e) {
 			// muut virheet
             palvelu_lisatty = false;
 				JOptionPane.showMessageDialog(null, "Palvelun lisaaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
-			//	 e.printStackTrace();
+
 			}finally {
 				if (palvelu_lisatty == true)
 					JOptionPane.showMessageDialog(null, "Palvelu lisatty tietokantaan.");
@@ -314,10 +312,9 @@ public class PalveluGUI extends JFrame {
 	Viedään näytöllä olevat tiedot Toimipisteoliolle ja muutetaan ne tietokantaan
 	*/
 	public  void muuta_tiedot() {
-		//System.out.println("Muutetaan...");
+
 			boolean palvelu_muutettu = true;
 		// asetetaan tiedot oliolle
-			//m_palvelu.setPalveluId(Integer.parseInt(txtToimipisteID.getText()));
             m_palvelu.setToimipisteId(Integer.parseInt(txtToimipisteID.getText()));
 			m_palvelu.setNimi(txtNimi.getText());
 			m_palvelu.setTyyppi(Integer.parseInt(txtTyyppi.getText()));
@@ -332,12 +329,10 @@ public class PalveluGUI extends JFrame {
 			// SQL virheet
             palvelu_muutettu = false;
 				JOptionPane.showMessageDialog(null, "Palvelun tietojen muuttaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
-				 //se.printStackTrace();
 			} catch (Exception e) {
 			// muut virheet
             palvelu_muutettu = false;
 				JOptionPane.showMessageDialog(null, "Palvelun tietojen muuttaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
-				// e.printStackTrace();
 			} finally {
 				if (palvelu_muutettu == true)
 					JOptionPane.showMessageDialog(null, "Palvelun tiedot muutettu.");
@@ -345,7 +340,7 @@ public class PalveluGUI extends JFrame {
 		
 	}
 	public  void poista_tiedot() {
-		// haetaan tietokannasta toimipisteta, jonka toimipiste_id = txttoimipisteID 
+		// haetaan tietokannasta palvelua
 		m_palvelu = null;
 		boolean palvelu_poistettu = false;
 		
@@ -359,7 +354,7 @@ public class PalveluGUI extends JFrame {
 			JOptionPane.showMessageDialog(null, "Palvelua ei loydy.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
 		}
 		if (m_palvelu.getNimi() == null) {
-		// poistettavaa asiakasta ei löydy tietokannasta, tyhjennetään tiedot näytöltä
+		// poistettavaa palvelua ei löydy tietokannasta, tyhjennetään tiedot näytöltä
 			txtToimipisteID.setText("");
 			txtNimi.setText("");
 			txtTyyppi.setText("");
@@ -371,7 +366,7 @@ public class PalveluGUI extends JFrame {
 		}
 		else
 		{
-            // naytetaan poistettavan asiakkaan tiedot
+            // naytetaan poistettavan palvelun tiedot
             txtToimipisteID.setText(String.valueOf(m_palvelu.getToimipisteId()));
 			txtNimi.setText(m_palvelu.getNimi());
 			txtTyyppi.setText(String.valueOf(m_palvelu.getTyyppi()));                                                       
@@ -387,11 +382,11 @@ public class PalveluGUI extends JFrame {
 			} catch (SQLException se) {
 			// SQL virheet
 				JOptionPane.showMessageDialog(null, "Palvelun poistaminen ei onnistu.", "Tietokantavirhe", JOptionPane.ERROR_MESSAGE);
-				// se.printStackTrace();
+
 			} catch (Exception e) {
 			// muut virheet
 				JOptionPane.showMessageDialog(null, "Palvelun poistaminen ei onnistu.", "Virhe", JOptionPane.ERROR_MESSAGE);
-				// e.printStackTrace();
+
 			} finally {
 				if (palvelu_poistettu == true) { // ainoastaan, jos vahvistettiin ja poisto onnistui
                     txtPalveluID.setText("");

@@ -48,7 +48,7 @@ public class GUI extends JPanel {
 			new ActionListener () {// parametrina luotavan "rajapintaluokan ilmentymä": new ActionListener()
 				public void actionPerformed(ActionEvent actEvent) {	
                     AsiakasGUI asiakasgui = new AsiakasGUI();
-                    asiakasgui.setVisible(true);
+                    asiakasgui.setVisible(true); //näkyviin
 					
 				}
 			}
@@ -98,7 +98,7 @@ public class GUI extends JPanel {
     public static void main (String[] args) {
         JFrame frame = new JFrame ("MasterGUI");
 
-        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); //sammuu kokonaan
         frame.getContentPane().add (new GUI());
         frame.pack();
         frame.setVisible (true);
