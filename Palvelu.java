@@ -70,21 +70,18 @@ public class Palvelu {
     public String toString(){
         return (m_palvelu_id + " " + m_toimipiste_id);
     }
-	/*
-	Haetaan asiakkaan tiedot ja palautetaan asiakasolio kutsujalle.
-	Staattinen metodi, ei vaadi fyysisen olion olemassaoloa.
-	*/
+	//haetaan palvelun tiedot
 	public static Palvelu haePalvelu(Connection connection, int pid, int tid) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
-		// haetaan tietokannasta asiakasta, jonka asiakas_id = id 
+		// haetaan tietokannasta palvelua palvelu_id:n ja viiteavaimen perusteella
 		String sql = "SELECT palvelu_id, toimipiste_id, nimi, tyyppi, kuvaus, hinta, alv " 
-					+ " FROM Palvelu WHERE palvelu_id = ? AND toimipiste_id = ?"; // ehdon arvo asetetaan jäljempänä
+					+ " FROM Palvelu WHERE palvelu_id = ? AND toimipiste_id = ?"; // ehdon arvot asetetaan jäljempänä
 		ResultSet tulosjoukko = null;
 		PreparedStatement lause = null;
 		try {
 			// luo PreparedStatement-olio sql-lauseelle
 			lause = connection.prepareStatement(sql);
 			lause.setInt( 1, pid);
-			lause.setInt( 2, tid); // asetetaan where ehtoon (?) arvo
+			lause.setInt( 2, tid); // asetetaan where ehtoon (?) arvot
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
 			if (tulosjoukko == null) {
@@ -97,12 +94,11 @@ public class Palvelu {
             // JDBC virheet
                         throw e;
 		}
-		// käsitellään resultset - laitetaan tiedot asiakasoliolle
+		// käsitellään resultset
 		Palvelu palveluOlio = new Palvelu ();
 		
 		try {
 			if (tulosjoukko.next () == true){
-				//asiakas_id, etunimi, sukunimi, lahiosoite, postitoimipaikka, postinro, email, puhelinnro
                 palveluOlio.setPalveluId(tulosjoukko.getInt("palvelu_id"));
                 palveluOlio.setToimipisteId (tulosjoukko.getInt("toimipiste_id"));
 				palveluOlio.setNimi(tulosjoukko.getString("nimi"));
@@ -115,16 +111,12 @@ public class Palvelu {
 		}catch (SQLException e) {
 			throw e;
 		}
-		// palautetaan asiakasolio
+		// palautetaan palveluolio
 		
 		return palveluOlio;
 	}
-	/*
-	Lisätään asiakkaan tiedot tietokantaan.
-	Metodissa "asiakasolio kirjoittaa tietonsa tietokantaan".
-	*/
+	//Lisätään palvelu
      public int lisaaPalvelu (Connection connection) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
-		// haetaan tietokannasta asiakasta, jonka asiakas_id = olion id -> ei voi lisätä, jos on jo kannassa
 		String sql = "SELECT palvelu_id" 
 					+ " FROM Palvelu WHERE palvelu_id = ? AND toimipiste_id = ?"; // ehdon arvo asetetaan jäljempänä
 		ResultSet tulosjoukko = null;
@@ -134,7 +126,7 @@ public class Palvelu {
 			// luo PreparedStatement-olio sql-lauseelle
 			lause = connection.prepareStatement(sql);
 			lause.setInt(1, getPalveluId());
-			lause.setInt(2, getToimipisteId()); // asetetaan where ehtoon (?) arvo, olion asiakasid
+			lause.setInt(2, getToimipisteId()); // asetetaan where ehtoon (?) arvot
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
 			if (tulosjoukko.next () == true) { // asiakas loytyi
@@ -151,7 +143,6 @@ public class Palvelu {
 		sql = "INSERT INTO Palvelu "
 		+ "(palvelu_id, toimipiste_id, nimi, tyyppi, kuvaus, hinta, alv) "
 		+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
-		// System.out.println("Lisataan " + sql);
 		lause = null;
 		try {
 			// luo PreparedStatement-olio sql-lauseelle
@@ -167,7 +158,6 @@ public class Palvelu {
 			
 			// suorita sql-lause
 			int lkm = lause.executeUpdate();	
-		//	System.out.println("lkm " + lkm);
 			if (lkm == 0) {
 				throw new Exception("Palvelun lisaaminen ei onnistu");
 			}
@@ -180,12 +170,8 @@ public class Palvelu {
 		}
 		return 0;
 	}
-	/*
-	Muutetaan asiakkaan tiedot tietokantaan id-tietoa (avain) lukuunottamatta. 
-	Metodissa "asiakasolio muuttaa tietonsa tietokantaan".
-	*/
+	//palvleuiden muuttaminen
     public int muutaPalvelu (Connection connection) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
-		// haetaan tietokannasta asiakasta, jonka asiakas_id = olion id, virhe, jos ei löydy
 		String sql = "SELECT palvelu_id" 
 					+ " FROM Palvelu WHERE palvelu_id = ? AND toimipiste_id = ?"; // ehdon arvo asetetaan jäljempänä
 		ResultSet tulosjoukko = null;
@@ -193,11 +179,11 @@ public class Palvelu {
 		try {
 			// luo PreparedStatement-olio sql-lauseelle
 			lause = connection.prepareStatement(sql);
-			lause.setInt( 1, getPalveluId()); // asetetaan where ehtoon (?) arvo
+			lause.setInt( 1, getPalveluId()); // asetetaan where ehtoon (?) arvot
 			lause.setInt( 2, getToimipisteId());
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
-			if (tulosjoukko.next () == false) { // asiakasta ei löytynyt
+			if (tulosjoukko.next () == false) { //palvelua ei löytynyt
 				throw new Exception("Palvelua ei loydy tietokannasta");
 			}
 		} catch (SQLException se) {
@@ -207,7 +193,7 @@ public class Palvelu {
             // JDBC virheet
                     throw e;
 		}
-		// parsitaan Update, päiviteään tiedot lukuunottamatta avainta
+		// parsitaan Update, päiviteään tiedot lukuunottamatta avaimia
 		sql = "UPDATE Palvelu SET nimi = ?, tyyppi = ?, kuvaus = ?, hinta = ?, alv = ? WHERE palvelu_id = ? AND toimipiste_id = ?";
 		
 		lause = null;
@@ -217,7 +203,7 @@ public class Palvelu {
 			
 			// laitetaan olion attribuuttien arvot UPDATEen
             
-            //lause.setInt(1, getPalveluId());
+
 			lause.setString(1, getNimi()); 
 			lause.setInt(2, getTyyppi());
 			lause.setString(3, getKuvaus());
@@ -241,10 +227,7 @@ public class Palvelu {
 		}
 		return 0; // toiminto ok
 	}
-	/*
-	Poistetaan asiakkaan tiedot tietokannasta. 
-	Metodissa "asiakasolio poistaa tietonsa tietokannasta".
-	*/
+	//palveluiden poistaminen
 	public int poistaPalvelu (Connection connection) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
 		
 		// parsitaan DELETE

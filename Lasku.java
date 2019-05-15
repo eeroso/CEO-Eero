@@ -94,13 +94,12 @@ public class Lasku{
         return (m_lasku_id + " " + m_asiakas_id + " " + m_nimi);
     }
 	/*
-	Haetaan asiakkaan tiedot ja palautetaan asiakasolio kutsujalle.
+	Haetaan laskun tiedot ja palautetaan laskuolio kutsujalle.
 	Staattinen metodi, ei vaadi fyysisen olion olemassaoloa.
 	*/
 	public static Lasku haeLasku (Connection connection, int lid, int vid) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
-		// haetaan tietokannasta asiakasta, jonka asiakas_id = id 
 		String sql = "SELECT lasku_id, varaus_id, asiakas_id, nimi, lahiosoite, postitoimipaikka, postinro, summa, alv" 
-					+ " FROM lasku WHERE lasku_id = ? AND varaus_id = ?"; // ehdon arvo asetetaan jäljempänä
+					+ " FROM lasku WHERE lasku_id = ? AND varaus_id = ?"; // ehdon arvot asetetaan jäljempänä
 		ResultSet tulosjoukko = null;
 		PreparedStatement lause = null;
 		try {
@@ -108,7 +107,7 @@ public class Lasku{
 			lause = connection.prepareStatement(sql);
 			lause.setInt( 1, lid);
 			lause.setInt( 2, vid);
-		 // asetetaan where ehtoon (?) arvo
+		 // asetetaan where ehtoon (?) arvot
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
 			if (tulosjoukko == null) {
@@ -126,7 +125,6 @@ public class Lasku{
 		
 		try {
 			if (tulosjoukko.next () == true){
-				//lasku_id, asiakas_id, toimipiste_id, nimi, lahiosoite, postitoimipaikka, postinro
 				laskuOlio.setLaskuId (tulosjoukko.getInt("lasku_id"));
 				laskuOlio.setVarausId(tulosjoukko.getInt("varaus_id"));
 				laskuOlio.setAsiakasId (tulosjoukko.getInt("asiakas_id"));
@@ -147,12 +145,8 @@ public class Lasku{
 		
 		return laskuOlio;
 	}
-	/*
-	Lisätään varauksen tiedot tietokantaan.
-	Metodissa "laskuolio kirjoittaa tietonsa tietokantaan".
-	*/
+	//lisätään laskun tiedot kantaan
      public int lisaaLasku (Connection connection) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
-		// haetaan tietokannasta asiakasta, jonka asiakas_id = olion id -> ei voi lisätä, jos on jo kannassa
 		String sql = "SELECT lasku_id" 
 					+ " FROM lasku WHERE lasku_id = ? AND varaus_id = ?"; // ehdon arvo asetetaan jäljempänä
 		ResultSet tulosjoukko = null;
@@ -166,7 +160,7 @@ public class Lasku{
 
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
-			if (tulosjoukko.next () == true) { // asiakas loytyi
+			if (tulosjoukko.next () == true) { //lasku löytyi
 				throw new Exception("lasku on jo olemassa");
 			}
 		} catch (SQLException se) {
@@ -180,7 +174,6 @@ public class Lasku{
 		sql = "INSERT INTO lasku "
 		+ "(lasku_id, varaus_id, asiakas_id, nimi, lahiosoite, postitoimipaikka, postinro, summa, alv) "
 		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		// System.out.println("Lisataan " + sql);
 		lause = null;
 		try {
 			// luo PreparedStatement-olio sql-lauseelle
@@ -198,7 +191,6 @@ public class Lasku{
 		
 			// suorita sql-lause
 			int lkm = lause.executeUpdate();	
-		//	System.out.println("lkm " + lkm);
 			if (lkm == 0) {
 				throw new Exception("Laskun lisaaminen ei onnistu");
 			}
@@ -213,17 +205,17 @@ public class Lasku{
     }
     
     public void paperiLasku (Connection connection, int lid, int vid) throws SQLException, Exception { //paperilaskun kirjoitusfunktio
-        String sql = "SELECT * FROM lasku WHERE lasku_id = ? AND varaus_id = ? "; // ehdon arvo asetetaan jäljempänä
+        String sql = "SELECT * FROM lasku WHERE lasku_id = ? AND varaus_id = ? "; // ehdon arvot asetetaan jäljempänä
 		ResultSet tulosjoukko = null;
         PreparedStatement lause = null; 
         FileWriter writer = new FileWriter("lasku.txt"); //tiedosto johon paperilasku tulee
-		BufferedWriter data = new BufferedWriter(writer);
+		BufferedWriter data = new BufferedWriter(writer); //kirjoittaja
 		
 		try {
 
             lause = connection.prepareStatement(sql);
             lause.setInt( 1, lid);
-            lause.setInt( 2, vid);  // asetetaan where ehtoon (?) arvo
+            lause.setInt( 2, vid);  // asetetaan where ehtoon (?) arvot
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();
  
@@ -247,7 +239,7 @@ public class Lasku{
                 Double alv = tulosjoukko.getDouble("alv");
                 
 			
-			data.write("Lasku ID: " + lasku); //kirjoitetaan juuri haetut tiedot lasku-tekstitiedostoon
+			data.write("Lasku ID: " + lasku); //kirjoitetaan juuri haetut tiedot lasku-tekstitiedostoon eri riveille
 			data.newLine();
 			data.write("Varaus ID: " + varaus);
 			data.newLine();
@@ -284,11 +276,9 @@ public class Lasku{
 
     
 	/*
-	Muutetaan asiakkaan tiedot tietokantaan id-tietoa (avain) lukuunottamatta. 
-	Metodissa "asiakasolio muuttaa tietonsa tietokantaan".
+	Muutetaan laskun tiedot tietokantaan
 	*/
     public int muutaLasku (Connection connection) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
-		// haetaan tietokannasta asiakasta, jonka asiakas_id = olion id, virhe, jos ei löydy
 		String sql = "SELECT lasku_id" 
 					+ " FROM lasku WHERE lasku_id = ? AND varaus_id = ?"; // ehdon arvo asetetaan jäljempänä
 		ResultSet tulosjoukko = null;
@@ -297,10 +287,10 @@ public class Lasku{
 			// luo PreparedStatement-olio sql-lauseelle
 			lause = connection.prepareStatement(sql);
 			lause.setInt( 1, getLaskuId());
-			lause.setInt( 2, getVarausId()); // asetetaan where ehtoon (?) arvo
+			lause.setInt( 2, getVarausId()); // asetetaan where ehtoon (?) arvot
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
-			if (tulosjoukko.next () == false) { // asiakasta ei löytynyt
+			if (tulosjoukko.next () == false) { //laskua ei löytynyt
 				throw new Exception("laskua ei loydy tietokannasta");
 			}
 		} catch (SQLException se) {
@@ -348,8 +338,7 @@ public class Lasku{
 		return 0; // toiminto ok
 	}
 	/*
-	Poistetaan asiakkaan tiedot tietokannasta. 
-	Metodissa "asiakasolio poistaa tietonsa tietokannasta".
+	Poistetaan laskun tiedot tietokannasta. 
 	*/
 	public int poistaLasku (Connection connection) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
 		

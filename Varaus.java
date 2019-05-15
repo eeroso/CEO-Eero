@@ -93,12 +93,8 @@ public class Varaus {
     public String toString(){
         return (m_varaus_id + " " + m_asiakas_id + " " + m_toimipiste_id);
     }
-	/*
-	Haetaan asiakkaan tiedot ja palautetaan asiakasolio kutsujalle.
-	Staattinen metodi, ei vaadi fyysisen olion olemassaoloa.
-	*/
+	//haetaan varauksen tiedot
 	public static Varaus haeVaraus (Connection connection, int id) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
-		// haetaan tietokannasta asiakasta, jonka asiakas_id = id 
 		String sql = "SELECT varaus_id, asiakas_id, toimipiste_id, varattu_pvm, vahvistus_pvm, varattu_alkupvm, varattu_loppupvm" 
 					+ " FROM varaus WHERE varaus_id = ?"; // ehdon arvo asetetaan jäljempänä
 		ResultSet tulosjoukko = null;
@@ -147,7 +143,6 @@ public class Varaus {
 	Metodissa "varausolio kirjoittaa tietonsa tietokantaan".
 	*/
      public int lisaaVaraus (Connection connection) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
-		// haetaan tietokannasta asiakasta, jonka asiakas_id = olion id -> ei voi lisätä, jos on jo kannassa
 		String sql = "SELECT varaus_id" 
 					+ " FROM varaus WHERE varaus_id = ? AND asiakas_id = ?"; // ehdon arvo asetetaan jäljempänä
 		ResultSet tulosjoukko = null;
@@ -156,12 +151,12 @@ public class Varaus {
 		try {
 			// luo PreparedStatement-olio sql-lauseelle
 			lause = connection.prepareStatement(sql);
-			lause.setInt( 1, getVarausId()); // asetetaan where ehtoon (?) arvo, olion asiakasid
+			lause.setInt( 1, getVarausId()); // asetetaan where ehtoon (?) arvot
 			lause.setInt( 2, getAsiakasId());
 
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
-			if (tulosjoukko.next () == true) { // asiakas loytyi
+			if (tulosjoukko.next () == true) { //varaus löytyi
 				throw new Exception("Varaus on jo olemassa");
 			}
 		} catch (SQLException se) {
@@ -175,7 +170,6 @@ public class Varaus {
 		sql = "INSERT INTO Varaus "
 		+ "(varaus_id, asiakas_id, toimipiste_id, varattu_pvm, vahvistus_pvm, varattu_alkupvm, varattu_loppupvm) "
 		+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
-		// System.out.println("Lisataan " + sql);
 		lause = null;
 		try {
 			// luo PreparedStatement-olio sql-lauseelle
@@ -204,12 +198,8 @@ public class Varaus {
 		}
 		return 0;
 	}
-	/*
-	Muutetaan asiakkaan tiedot tietokantaan id-tietoa (avain) lukuunottamatta. 
-	Metodissa "asiakasolio muuttaa tietonsa tietokantaan".
-	*/
+	//tietojen muuttaminen
     public int muutaVaraus (Connection connection) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
-		// haetaan tietokannasta asiakasta, jonka asiakas_id = olion id, virhe, jos ei löydy
 		String sql = "SELECT varaus_id" 
 					+ " FROM varaus WHERE varaus_id = ?"; // ehdon arvo asetetaan jäljempänä
 		ResultSet tulosjoukko = null;
@@ -220,7 +210,7 @@ public class Varaus {
 			lause.setInt( 1, getVarausId()); // asetetaan where ehtoon (?) arvo
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
-			if (tulosjoukko.next () == false) { // asiakasta ei löytynyt
+			if (tulosjoukko.next () == false) {
 				throw new Exception("Varausta ei loydy tietokannasta");
 			}
 		} catch (SQLException se) {
@@ -266,8 +256,7 @@ public class Varaus {
 		return 0; // toiminto ok
 	}
 	/*
-	Poistetaan asiakkaan tiedot tietokannasta. 
-	Metodissa "asiakasolio poistaa tietonsa tietokannasta".
+	Poistetaan varauksen tiedot tietokannasta. 
 	*/
 	public int poistaVaraus (Connection connection) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
 		
@@ -293,6 +282,8 @@ public class Varaus {
 		}
 		return 0; // toiminto ok
 	}
+
+	//raportinhaku funktio halutulla aikavälillä
 	public int haeRaportti (Connection connection) throws SQLException, Exception { // tietokantayhteys välitetään parametrina
 	
 		String sql = "SELECT toimipiste_id, varattu_alkupvm, varattu_loppupvm" 
@@ -307,7 +298,7 @@ public class Varaus {
 			lause = connection.prepareStatement(sql);
 			lause.setString( 1, getPvmalku()); 
 			lause.setString( 2, getPvmloppu());
-			lause.setInt( 3, getToimipisteId()); // asetetaan where ehtoon (?) arvo
+			lause.setInt( 3, getToimipisteId()); // asetetaan where ehtoon (?) arvot
 			// suorita sql-lause
 			tulosjoukko = lause.executeQuery();	
 			while ( tulosjoukko.next() ) {
